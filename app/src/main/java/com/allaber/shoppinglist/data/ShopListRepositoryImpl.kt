@@ -1,10 +1,13 @@
 package com.allaber.shoppinglist.data
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.allaber.shoppinglist.domain.ShopItem
 import com.allaber.shoppinglist.domain.ShopListRepository
 
 object ShopListRepositoryImpl : ShopListRepository {
 
+    private val shopListLive = MutableLiveData<List<ShopItem>>()
     private val shopList = mutableListOf<ShopItem>()
     private var autoIncrementId = 0
 
@@ -20,10 +23,12 @@ object ShopListRepositoryImpl : ShopListRepository {
             shopItem.id = autoIncrementId++
         }
         shopList.add(shopItem)
+        updateList()
     }
 
     override fun deleteShopItem(shopItem: ShopItem) {
         shopList.remove(shopItem)
+        updateList()
     }
 
     override fun editShopItem(shopItem: ShopItem) {
@@ -37,8 +42,12 @@ object ShopListRepositoryImpl : ShopListRepository {
             ?: throw java.lang.RuntimeException("Element witch id $shopItemById not found")
     }
 
-    override fun getShopList(): List<ShopItem> {
-        return shopList.toList()
+    override fun getShopList(): LiveData<List<ShopItem>> {
+        return shopListLive
+    }
+
+    private fun updateList(){
+        shopListLive.value = shopList.toList()
     }
 
 }
