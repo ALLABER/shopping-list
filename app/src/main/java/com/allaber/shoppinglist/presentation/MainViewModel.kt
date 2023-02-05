@@ -1,6 +1,5 @@
 package com.allaber.shoppinglist.presentation
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.allaber.shoppinglist.data.ShopListRepositoryImpl
 import com.allaber.shoppinglist.domain.DeleteShopItemUseCase
