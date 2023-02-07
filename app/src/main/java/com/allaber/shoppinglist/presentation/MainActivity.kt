@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.allaber.shoppinglist.R
+import com.allaber.shoppinglist.presentation.ShopListAdapter.Companion.MAX_PULL_SIZE
+import com.allaber.shoppinglist.presentation.ShopListAdapter.Companion.VIEW_TYPE_DISABLED
+import com.allaber.shoppinglist.presentation.ShopListAdapter.Companion.VIEW_TYPE_ENABLED
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +29,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
         adapter = ShopListAdapter()
-        rvShopList.adapter = adapter
+
+        with(rvShopList) {
+            adapter = adapter
+            recycledViewPool.setMaxRecycledViews(VIEW_TYPE_DISABLED, MAX_PULL_SIZE)
+            recycledViewPool.setMaxRecycledViews(VIEW_TYPE_ENABLED, MAX_PULL_SIZE)
+        }
+
     }
 }
